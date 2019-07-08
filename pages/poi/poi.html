@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title>Berlin Information</title>
+    <style>
+        img {
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp" ng-controller="poiController">
+        <div id="welcome">
+            <h1 style="margin-left: 610px; margin-top: 50px">Berlin</h1>
+            <h2 style="margin-left: 460px">Find Your Interest Information</h2>
+            <hr>
+            <!-- ng-if="connected" -->
+            <!-- <a href="#!favorites">
+                <button class="buttonB" style="margin-left: 40px">Favorites POI</button>
+            </a> -->
+            <input id="search" name="search" type="text" ng-model="searchString" style="margin-left: 40px"
+                placeholder="Search POI">
+            <select ng-hide="showSorted" id="filter" name="filter" ng-model=categoryFilter style="margin-left: 40px">
+                <option ng-repeat="(name,id) in categories" name={{name}} value="{{name}}">{{name}}</option>
+                <option value="">Show All</option>
+
+            </select>
+            <button ng-hide="showSorted" type="button" class="buttonB" ng-click="filterByCategory()"
+                style="margin-left: 8px">Filter by
+                Category</button>
+            <button type="button" ng-hide="showSorted" class="buttonB" ng-click="sort()" style="margin-left: 8px">Sort
+                POI by Rank</button>
+            <button type="button" ng-hide="!showSorted" class="buttonB" ng-click="showSorted=false"
+                style="margin-left: 8px">Show POI By Categories</button>
+            <button class="btn" ng-click="savePoints()" ng-disabled="!connected"><i
+                    class="far fa-save fa-2x"></i></button>
+            <div ng-repeat="(category,points) in poiCategories" ng-hide="!showCategory[category] || showSorted ">
+                <hr>
+                <h5 style="margin-left: 20px">{{category}}</h5>
+                <hr>
+                <table style="margin-left: 20px">
+                    </br>
+                    <tr>
+                        <td ng-repeat="name in points| searchFilter:searchString">
+                            <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]}}</label>
+                            <button ng-click="savePoint(name)" ng-disabled="!connected" ng-hide="favourites[name]"
+                                class="btn"><i class="far fa-star"></i></button>
+                            <button ng-click="unSavePoint(name)" ng-hide="!favourites[name]" class="btn"><i
+                                    class="fas fa-star"></i></button>
+                            <button ng-click="postReview(name)" ng-disabled="!connected" class="btn"><i
+                                    class="fas fa-pen-square fa-2x"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-repeat="name in points| searchFilter:searchString">
+                            <img src={{allPOI[name][0]}}
+                                style="border:3px solid #333;  width: 255px; height: 170px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
+                                alt="Image is not available" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-repeat="name in points|searchFilter:searchString">
+                            <button type="button" ng-click="specificPOI(name)" class="btn btn-outline-dark"
+                                style="margin-left: 30px; margin-top: 10px; width: 200px;">{{name}}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-hide="!showSorted" ng-repeat="fivePoints in sortedPoints| searchFilter:searchString">
+                <table style="margin-left: 20px">
+                    </br>
+                    <tr>
+                        <td ng-repeat="name in fivePoints| searchFilter:searchString">
+                            <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]}}</label>
+                            <button ng-click="savePoint(name)" ng-disabled="!connected" ng-hide="favourites[name]"
+                                class="btn"><i class="far fa-star"></i></button>
+                            <button ng-click="unSavePoint(name)" ng-hide="!favourites[name]" class="btn"><i
+                                    class="fas fa-star"></i></button>
+                            <button ng-click="postReview(name)" ng-disabled="!connected" class="btn"><i
+                                    class="fas fa-pen-square fa-2x"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-repeat="name in fivePoints| searchFilter:searchString">
+                            <img src={{allPOI[name][0]}}
+                                style="border:3px solid #333;  width: 255px; height: 170px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
+                                alt="Image is not available" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-repeat="name in fivePoints| searchFilter:searchString">
+                            <button type="button" ng-click="specificPOI(name)" class="btn btn-outline-dark"
+                                style="margin-left: 30px; margin-top: 10px; width: 200px;">{{name}}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

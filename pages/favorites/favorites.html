@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favorites POI</title>
+</head>
+<body>
+<div ng-app="myApp" ng-controller="favoritesController">
+    <div id="favorites">
+        <h1 style="margin-left: 330px; margin-top: 50px">Your Favorite Interest Point of Berlin</h1>
+        <hr>
+        <div>
+            <select id="filter" name="filter" style="margin-left: 360px" >
+                <option name="option1" value="op1">Museums</option>
+                <option name="option2" value="op2">Shopping Centers</option>
+                <option name="option3" value="op3">Restaurants</option>
+                <option name="option4" value="op4">Night Clubs</option>
+            </select>
+            <button class="buttonB" style="margin-left: 8px">Filter by Category</button>
+            <select id="sort" name="filter" style="margin-left: 70px" >
+                <option name="option1" value="1">1</option>
+                <option name="option2" value="2">2</option>
+                <option name="option3" value="3">3</option>
+                <option name="option4" value="4">4</option>
+                <option name="option5" value="5">5</option>
+            </select>
+            <button class="buttonB" style="margin-left: 8px">Sort POI by Rank</button>
+        </div>
+        <div ng-hide="museumsPoints">
+            <hr>
+            <h5 style="margin-left: 20px">Museums</h5>
+            <hr>
+            <p ng-repeat="(id, point) in favoritesController.museumsPoints">
+                <a href="#!sPOI">
+                    Point Name: <span ng-bind="point.name"></span><br>
+                    <img style="margin-left: 5px;" ng-src="{{ point.image }}">
+                </a>
+            </p>
+        </div>
+        <div ng-hide="nightPoints">
+            <hr>
+            <h5 style="margin-left: 20px">Night Clubs</h5>
+            <hr>
+            <p ng-repeat="(id, point) in favoritesController.nightPoints">
+                <a href="#!sPOI">
+                    Point Name: <span ng-bind="point.name"></span><br>
+                    <img style="margin-left: 5px;" ng-src="{{ point.image }}">
+                </a>
+            </p>
+        </div>
+        <div ng-hide="restaurantsPoints">
+            <hr>
+            <h5 style="margin-left: 20px">Restaurants</h5>
+            <hr>
+            <p ng-repeat="(id, point) in favoritesController.restaurantsPoints">
+                <a href="#!sPOI">
+                    Point Name: <span ng-bind="point.name"></span><br>
+                    <img style="margin-left: 5px;" ng-src="{{ point.image }}">
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

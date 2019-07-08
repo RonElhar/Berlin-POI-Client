@@ -1,0 +1,84 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<div ng-app="myApp" ng-controller="homeController">
+
+    <title>Berlin Home Page</title>
+
+    <body>
+        <div id="welcome">
+
+            <h1 style="margin-left: 500px; margin-top: 50px">
+                Welcome to Berlin
+                <img src="images/berlin.png" style="margin-left:10px; width: 60px; height: 100px;">
+            </h1>
+            <h1 style="margin-left: 490px">Information Website</h1>
+            <div id="login">
+                <hr>
+                <h3 style="margin-left: 640px">Sign In</h3>
+                <label style="margin-left: 470px" for="userNameLogin"><b>User Name</b></label>
+                <input id="userNameLogin" type="text" ng-model="user_name" style="margin-left: 8px"
+                    placeholder="Enter User Name">
+                </br>
+                <label style="margin-left: 470px" for="passwordLogin"><b>Password</b></label>
+                <input id="passwordLogin" type="password" ng-model="password" style="margin-left: 25px"
+                    placeholder="Enter Password">
+                </br>
+                <label ng-if="invalidInput" style="color: crimson; margin-left: 500px">Invalid user name or
+                    Password</label>
+                </br ng-if="invalidInput">
+
+                <!--            <a href="#!loggedIn">-->
+                <input type="button" ng-disabled="connected" class="buttonB" style="margin-left: 570px" value="Login"
+                    ng-click="logIn()">
+                <!--            </a>-->
+
+                <a href="#!retrieve">
+                    <input type="button" ng-disabled="connected" class="buttonB" style="margin-left: 8px"
+                        value="Retrieve Password">
+                </a>
+                <input type="button" ng-disabled="!connected" class="buttonB" style="margin-left: 8px"
+                    ng-click="logout()" value="Logout">
+
+                <div ng-if="!connected">
+                    <hr>
+                    <h5 style="margin-left: 460px">If you don't have an account yet please register now:</h5>
+                    <a href="#!register">
+                        <button class="buttonB" style="margin-left: 620px">
+                            Registration
+                        </button>
+                    </a>
+                    <hr>
+                </div>
+
+            </div>
+        </div>
+        <h2 id="explore" style="margin-left: 450px">Explore your Berlin Points of Interest...</h2>
+        <!-- <form class="form-inline"> -->
+        <table style="margin-left: 250px">
+            </br>
+            <div ng-if="points!=null" id="explore">
+                <tr>
+                    <td ng-repeat="(name, img) in points">
+                        <img src={{img}}
+                            style="border:3px solid #333;  width: 300px; height: 200px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
+                            alt="Image is not available" />
+                    </td>
+                </tr>
+                <tr>
+                    <td ng-repeat="(name, img) in points">
+                        <button type="button" ng-click="specificPOI(name)" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-dark"
+                            style="margin-left: 50px; margin-top: 10px; width: 200px;">{{name}}</button>
+                    </td>
+                </tr>
+            </div>
+
+            <figcaption>{{name}}</figcaption>
+
+        </table>
+        </br>
+        <!-- </form> -->
+
+    </body>
+
+    </html>
+</div>

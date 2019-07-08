@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login User</title>
+</head>
+
+<body>
+
+    <div ng-app="myApp" ng-controller="loggedInController">
+        <div id="welcome">
+            <h1 style="margin-left: 610px; margin-top: 50px">Berlin</h1>
+            <h2 style="margin-left: 420px">Your Points of Interest Information</h2>
+            <div>
+                <hr>
+                <h5 style="margin-left: 20px">Recommended Points</h5>
+                <hr>
+                <table style="margin-left: 200px">
+                    </br>
+                    <tr>
+                        <td ng-repeat="(name,point) in recommended">
+                            <img src={{point}}
+                                style="border:3px solid #333; margin-left: 100px; margin-right:100px ; width: 350px; height: 233px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
+                                alt="Image is not available" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-repeat="(name,point) in recommended">
+                            <button type="button" ng-click="specificPOI(name)" class="btn btn-outline-dark"
+                                style="margin-left: 170px; margin-top: 10px; width: 200px;">{{name}}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <hr>
+                <h5 style="margin-left: 20px">Last Saved Points</h5>
+                <hr>
+                <table style="margin-left: 200px">
+                    </br>
+                    <tr>
+                        <td ng-repeat="(name,point) in favourites">
+                            <img src={{point}}
+                                style="border:3px solid #333; margin-left: 100px; margin-right:100px ; width: 350px; height: 233px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
+                                alt="Image is not available" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-repeat="(name,point) in favourites">
+                            <button type="button" ng-click="specificPOI(name)" class="btn btn-outline-dark"
+                                style="margin-left: 170px; margin-top: 10px; width: 200px;">{{name}}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

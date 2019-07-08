@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>POI Information</title>
+</head>
+
+<body>
+    <div ng-app="myApp" ng-controller="specificPOIController">
+        <div id="poiInfo">
+            <h1 style="margin-left: 430px; margin-top: 50px">Point Of Interest Information</h1>
+            <h2 style="margin-left: 33%" ng-model="poiDetails">{{poiDetails.name}}</h2>
+            <hr>
+            <br />
+            <input id="description" name="description" type="text" ng-model="description"
+                style="margin-left: 460px; height:150px; width: 500px" value={{poiDetails.description}}>
+            <br />
+            <hr>
+            <label style="margin-left: 300px" for="noViews"><b> Num Of Views:</b></label>
+            <input id="noViews" name="noViews" type="text" ng-model="noViews" style="margin-left: 8px"
+                value={{poiDetails.numOfViews}}>
+            <label style="margin-left: 80px" for="rank"><b> Rank:</b></label>
+            <label id="rank" name="rank" type="text" ng-model="rank" style="margin-left: 8px" value={{poiDetails.rank}}>
+            <hr>
+            <h4 style="margin-left: 560px">Two Last added Critics:</h4>
+            <label id="critic1" name="critic1" type="text" ng-model="critic1"
+                style="margin-left: 460px; height:100px; width: 500px" value={{poiDetails.critic1}}>
+            <br />
+            <br />
+            <label id="critic2" name="critic2" type="text" ng-model="critic2"
+                style="margin-left: 460px; height:100px; width: 500px" value={{poiDetails.critic2}}>
+        </div>
+    </div>
+
+</body>
+
+</html>
