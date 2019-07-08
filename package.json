@@ -1,0 +1,8 @@
+{
+  "name": "Berlin-POI-Client",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/RonElhar/Berlin-POI-Client.git",
+  "author": "ronelharrar@gmai.com",
+  "license": "MIT"
+}
