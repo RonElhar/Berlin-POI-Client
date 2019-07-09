@@ -19,10 +19,10 @@ app.config(function ($routeProvider) {
             controller: 'aboutController as abtCtrl'
         })
         // poi
-        // .when('/poi', {
-        //     templateUrl: 'pages/poi/poi.html',
-        //     controller: 'poiController as poiCtrl'
-        // })
+        .when('/poi', {
+            templateUrl: 'pages/poi/poi.html',
+            controller: 'poiController as poiCtrl'
+        })
 
         .when('/register', {
             templateUrl: 'pages/register/register.html',
@@ -39,10 +39,10 @@ app.config(function ($routeProvider) {
             controller: 'retrieveController',
         })
 
-        .when('/sPOI', {
-            templateUrl: 'pages/specificPOI/specificPOI.html',
-            controller: 'specificPOIController',
-        })
+        // .when('/sPOI', {
+        //     templateUrl: 'pages/specificPOI/specificPOI.html',
+        //     controller: 'specificPOIController',
+        // })
 
         .when('/favorites', {
             templateUrl: 'pages/favorites/favorites.html',

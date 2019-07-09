@@ -1,119 +1,179 @@
 <html>
-<link rel="stylesheet" type="text/css" href="app.css">
+  <link rel="stylesheet" type="text/css" href="app.css" />
 
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <script src="https://kit.fontawesome.com/bea98f43c6.js"></script>
+  </head>
 
-</head>
-
-<body ng-app="myApp">
+  <body ng-app="myApp">
     <div ng-controller="mainController">
-        <label id="hello" style="margin-left: 1300px; margin-top: 0px" for="userNameLogin"><b>Hello
-                {{currentUser}}</b></label>
-        <!-- load angular -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
-        <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
-        <script src="https://code.angularjs.org/1.7.8/angular-cookies.min.js"></script>
-        <!-- <script src="jquery-3.4.1.min.js"></script> -->
-        <!-- load app -->
-        <script src="app.js"></script>
+      <label
+        id="hello"
+        style="margin-left: 1300px; margin-top: 0px"
+        for="userNameLogin"
+        ><b>Hello {{ currentUser }}</b></label
+      >
+      <!-- load angular -->
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
+      <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+      <script src="https://code.angularjs.org/1.7.8/angular-cookies.min.js"></script>
+      <!-- <script src="jquery-3.4.1.min.js"></script> -->
+      <!-- load app -->
+      <script src="app.js"></script>
 
-        <!-- load controllers -->
-        <script src="pages/about/aboutController.js"></script>
-        <script src="pages/poi/poiController.js"></script>
-        <script src="pages/home/homeController.js"></script>
-        <script src="pages/register/registerController.js"></script>
-        <script src="pages/loggedIn/loggedInController.js"></script>
-        <script src="pages/favorites/favoritesController.js"></script>
-        <script src="pages/specificPOI/specificPOIController.js"></script>
-        <!-- menu -->
-        <ul>
-            <li>
-                <a href="#!">Home</a>
-            </li>
-            <li>
-                <a href="#!about">About</a>
-            </li>
-            <li>
-                <a href="#!poi">POI</a>
-            </li>
-            <li ng-hide="!connected">
-                <a href="#!login">MyPOI</a>
-            </li>
-            <li>
-                <a href="#!register">Register</a>
-            </li>
-            <li>
-                <a href="#!favourites">Favourites</a>
-            </li>
-        </ul>
+      <!-- load controllers -->
+      <script src="pages/about/aboutController.js"></script>
+      <script src="pages/poi/poiController.js"></script>
+      <script src="pages/home/homeController.js"></script>
+      <script src="pages/register/registerController.js"></script>
+      <script src="pages/loggedIn/loggedInController.js"></script>
+      <script src="pages/favorites/favoritesController.js"></script>
+      <script src="pages/specificPOI/specificPOIController.js"></script>
+      <!-- menu -->
+      <ul>
+        <li>
+          <a href="#!">Home</a>
+        </li>
+        <li>
+          <a href="#!about">About</a>
+        </li>
+        <li>
+          <a href="#!poi">POI</a>
+        </li>
+        <li ng-hide="!connected">
+          <a href="#!login">MyPOI</a>
+        </li>
+        <li>
+          <a href="#!register">Register</a>
+        </li>
+      </ul>
 
-        <!-- This section changes as the hashbang changes -->
-        <div ng-view>
-
-        </div>
-        <!-- Modal -->
-
-        <!-- This section changes as the hashbang changes -->
-        <!-- Button trigger modal -->
-        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-        </button> -->
-
-        <!-- Modal -->
-        <div ng-hide="showSorted" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{poi.name}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-
-                                <label class="col-form-label" id="description" name="description"
-                                    type="text">{{poi.description}}</label>
-                                <br />
-                                <label class="col-form-label"> Num Of Views:{{poi.numOfViews}}</label>
-
-                                <label class="col-form-label" for="rank"><b> Rank: {{poi.rank}}</b></label>
-                                <hr>
-                                <label class="col-form-label">Two Last added Critics:</label>
-                                <label class="col-form-label" id="critic1" name="critic1"
-                                    type="text">{{poi.critic1}}</label>
-                                <br />
-                                <br />
-                                <label id="critic2" name="critic2" type="text"
-                                    style="margin-left: 460px; height:100px; width: 500px">{{poi.critic2}} </label>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
+      <!-- This section changes as the hashbang changes -->
+      <div ng-view></div>
+      <!-- Modal -->
+       <div
+        ng-hide="showSorted"
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{ poi.name }}</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <img
+                    src="{{ poi.img }}"
+                    style="border:3px solid #333; margin-left: 50px;  width: 350px; height: 233px;"
+                  />
+                  <label
+                    class="col-form-label"
+                    ng-model="poi.description"
+                    id="description"
+                    name="description"
+                    type="text"
+                    ><b>Description:</b><br />
+                    {{ poi.description }}</label
+                  >
+                  <br />
+                  <label class="col-form-label">
+                    <b>Num Of Views:</b> {{ poi.numOfViews }}</label
+                  >
+                  <br />
+                  <label class="col-form-label" for="rank"
+                    ><b> Rank: {{ poi.rank }}</b></label
+                  >
+                  <hr />
+                  <label class="col-form-label">Two Last added Critics:</label>
+                  <br />
+                  <label
+                    class="col-form-label"
+                    id="critic1"
+                    name="critic1"
+                    type="text"
+                    >"{{ poi.critic1 }}"</label
+                  >
+                  <br />
+                  <label
+                    id="critic2"
+                    name="critic2"
+                    type="text"
+                    class="col-form-label"
+                    >"{{ poi.critic2 }}"
+                  </label>
+                </div>
+              </form>
+              <form ng-hide="showCritic">
+                    <label class="col-form-label"><b>Write a Critic:</b></label>
+                  </br>
+                    <label class="col-form-label">Choose Rank</label>
+                    <select ng-model="rank">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                </br>
+
+                    <!-- <div class="form-group"> -->
+                    <label for="write a critic">Description</label>
+                    <textarea class="form-control" ng-model="critic"></textarea>
+                    <button type="button" class="btn btn-primary mt-2" ng-click="saveCritic()" >
+                            Submit Critic
+                          </button>
+                  </form>
+            </div>
+            <div class="modal-footer">
+             
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+      <script
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"
+      ></script>
     </div>
-</body>
-
+  </body>
 </html>
