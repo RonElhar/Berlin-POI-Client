@@ -36,6 +36,7 @@
       <script src="pages/loggedIn/loggedInController.js"></script>
       <script src="pages/favorites/favoritesController.js"></script>
       <script src="pages/specificPOI/specificPOIController.js"></script>
+      <script src="pages/retrieve/retrieveController.js"></script>
       <!-- menu -->
       <ul>
         <li>
@@ -104,8 +105,8 @@
                   <label class="col-form-label" for="rank"
                     ><b> Rank: {{ poi.rank }}</b></label
                   >
-                  <hr />
-                  <label class="col-form-label">Two Last added Critics:</label>
+                  <br />
+                  <label class="col-form-label"><b>Two Last added Critics:</b></label>
                   <br />
                   <label
                     class="col-form-label"
@@ -124,7 +125,7 @@
                   </label>
                 </div>
               </form>
-              <form ng-hide="showCritic">
+              <form ng-hide="!showCritic">
                     <label class="col-form-label"><b>Write a Critic:</b></label>
                   </br>
                     <label class="col-form-label">Choose Rank</label>
@@ -139,14 +140,14 @@
 
                     <!-- <div class="form-group"> -->
                     <label for="write a critic">Description</label>
-                    <textarea class="form-control" ng-model="critic"></textarea>
-                    <button type="button" class="btn btn-primary mt-2" ng-click="saveCritic()" >
+                    <textarea class="form-control" ng-model="criticDescription"></textarea>
+                    <button type="button" class="btn btn-primary mt-2" ng-click="saveCritic()" data-dismiss="modal"  >
                             Submit Critic
                           </button>
+                    <label ng-hide="!criticError">Rank is required</label>
                   </form>
             </div>
             <div class="modal-footer">
-             
               <button
                 type="button"
                 class="btn btn-secondary"

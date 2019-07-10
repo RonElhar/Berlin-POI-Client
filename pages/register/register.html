@@ -14,7 +14,7 @@
             <hr>
             <form name="registrationForm" ng-submit="submit()" novalidate>
                 <label style="margin-left: 450px" for="regUserName"><b>User Name</b></label>
-                <input id="regUserName" name="regUserName" ng-model="regUserName" type="text" style="margin-left: 13px"
+                <input class="btn btn-light" id="regUserName" name="regUserName" ng-model="regUserName" type="text" style="margin-left: 13px"
                     placeholder="Enter User Name" required ng-pattern="/^[a-zA-Z\s]*$/" ng-minlength="3"
                     ng-maxlength="8">
                 <span
@@ -32,7 +32,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 450px" for="regPassword"><b>Password</b></label>
-                <input type="password" id="regPassword" name="regPassword" ng-model="password" style="margin-left: 25px"
+                <input class="btn btn-light" type="password" id="regPassword" name="regPassword" ng-model="password" style="margin-left: 25px"
                     placeholder="Enter Password" required ng-pattern="/^[0-9a-zA-Z\s]*$/" ng-minlength="5"
                     ng-maxlength="10">
                 <span
@@ -50,7 +50,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 450px" for="regFirstName"><b>First Name</b></label>
-                <input id="regFirstName" name="regFirstName" type="text" ng-model="regFirstName"
+                <input class="btn btn-light" id="regFirstName" name="regFirstName" type="text" ng-model="regFirstName"
                     style="margin-left: 12px" placeholder="Enter First Name" required ng-minlength="2">
                 <span
                     ng-show="registrationForm.regFirstName.$touched && registrationForm.regFirstName.$error.required">This
@@ -61,7 +61,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 450px" for="regLastName"><b> Last Name</b></label>
-                <input id="regLastName" name="regLastName" type="text" ng-model="regLastName" style="margin-left: 16px"
+                <input class="btn btn-light" id="regLastName" name="regLastName" type="text" ng-model="regLastName" style="margin-left: 16px"
                     placeholder="Enter Last Name" required ng-minlength="2">
                 <span
                     ng-show="registrationForm.regLastName.$touched && registrationForm.regLastName.$error.required">This
@@ -72,7 +72,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 450px" for="regCity"><b>City</b></label>
-                <input id="regCity" name="regCity" type="text" ng-model="regCity" style="margin-left: 65px"
+                <input class="btn btn-light" id="regCity" name="regCity" type="text" ng-model="regCity" style="margin-left: 65px"
                     placeholder="Enter City" required ng-minlength="2">
                 <span ng-show="registrationForm.regCity.$touched && registrationForm.regCity.$error.required">This is
                     required! </span>
@@ -81,7 +81,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 450px" for="regCountry"><b>Country</b></label>
-                <select id="regCountry" name="regCountry" ng-model="regCountry" style="margin-left: 40px" required>
+                <select class="btn btn-light" id="regCountry" name="regCountry" ng-model="regCountry" style="margin-left: 40px" required>
                     <option ng-repeat="country in countries" name="{{country}}" value="{{country}}">{{country}}</option>
                 </select>
                 <span ng-show="registrationForm.regCountry.$touched && registrationForm.regCountry.$error.required">This
@@ -89,7 +89,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 450px" for="regEmail"><b>Email</b></label>
-                <input id="regEmail" name="regEmail" type="email" ng-model="email" style="margin-left: 59px"
+                <input class="btn btn-light" id="regEmail" name="regEmail" type="email" ng-model="email" style="margin-left: 59px"
                     placeholder="Enter Email" required ng-pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/">
                 <span ng-show="registrationForm.regEmail.$touched && registrationForm.regEmail.$error.required">This is
                     required! </span>
@@ -98,7 +98,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 300px" for="regCategories"><b>Favourite Categories</b></label>
-                <select id="regCategories" name="regCategories" ng-model="regCategories" style="margin-left: 24px"
+                <select class="btn btn-light" id="regCategories" name="regCategories" ng-model="regCategories" style="margin-left: 24px"
                     required>
                     <option ng-repeat="(name,id) in categories" name="{{name}}" value="{{name}}">{{name}}
                     </option>
@@ -108,7 +108,7 @@
                     ng-show="registrationForm.regCategories.$touched && registrationForm.regCategories.$error.required">This
                     is required! </span>
 
-                <select id="regCategories2" name="regCategories2" ng-model="regCategories2" style="margin-left: 10px"
+                <select class="btn btn-light" id="regCategories2" name="regCategories2" ng-model="regCategories2" style="margin-left: 10px"
                     required>
                     <option ng-repeat="(name,id) in categories" ng-if="name!=regCategories" name="{{name}}"
                         value="{{name}}">{{name}}</option>
@@ -117,7 +117,7 @@
                 <!-- <span
                     ng-show="registrationForm.regCategories2.$touched && registrationForm.regCategories2.$error.required">This
                     is required! </span> -->
-                <select id="regCategories3" name="regCategories3" ng-model="regCategories3" style="margin-left: 10px">
+                <select class="btn btn-light" id="regCategories3" name="regCategories3" ng-model="regCategories3" style="margin-left: 10px">
                     <option ng-repeat="(name,id) in categories" ng-if="name!=regCategories && name!=regCategories2"
                         name="{{name}}" value="{{name}}">{{name}}</option>
 
@@ -125,7 +125,7 @@
                 </br>
                 </br>
                 <label style="margin-left: 300px" for="regVerQuestions"><b>Verification Questions</b></label>
-                <select id="regVerQuestions" name="regVerQuestions" ng-model="regVerQuestions" style="margin-left: 24px"
+                <select class="btn btn-light" id="regVerQuestions" name="regVerQuestions" ng-model="regVerQuestions" style="margin-left: 24px"
                     required>
                     <option ng-repeat="q in questions" name="{{q}}" value="{{q}}">{{q}}</option>
                 </select>
@@ -133,35 +133,28 @@
                     ng-show="registrationForm.regVerQuestions.$touched && registrationForm.regVerQuestions.$error.required">This
                     is required! </span>
 
-                <input id="regVerAnswer" name="regVerAnswer" type="text" ng-model="regVerAnswer"
+                <input class="btn btn-light" id="regVerAnswer" name="regVerAnswer" type="text" ng-model="regVerAnswer"
                     style="margin-left: 5px" placeholder="Enter Your Answer" required>
                 <span
                     ng-show="registrationForm.regVerAnswer.$touched && registrationForm.regVerAnswer.$error.required">This
                     is required! </span>
 
                 </br>
-                <select id="regVerQuestions2" name="regVerQuestions2" ng-model="regVerQuestions2"
-                    style="margin-left: 495
-                    px" required>
+                <select class="btn btn-light" id="regVerQuestions2" name="regVerQuestions2" ng-model="regVerQuestions2"
+                    style="margin-left: 495px" required>
                     <option ng-repeat="q in questions" ng-if="q!=regVerQuestions" name="{{q}}" value="{{q}}">{{q}}
                     </option>
                 </select>
-                <span
-                    ng-show="registrationForm.regVerQuestions2.$touched && registrationForm.regVerQuestions2.$error.required">This
-                    is required! </span>
 
-                <input id="regVerAnswer2" name="regVerAnswer2" type="text" ng-model="regVerAnswer2"
+                <input class="btn btn-light" id="regVerAnswer2" name="regVerAnswer2" type="text" ng-model="regVerAnswer2"
                     style="margin-left: 5px" placeholder="Enter Your Answer" required>
-                <span
-                    ng-show="registrationForm.regVerAnswer2.$touched && registrationForm.regVerAnswer2.$error.required">This
-                    is required! </span>
 
                 </br>
                 </br>
                 <label ng-if="invalidArguments" style="margin-left: 620px" style="color:red">Invalid Registration
                     fields! </label>
                 </br>
-                <input type="submit" id="submit" ng-click="register()" class="buttonB" value="Sign Up"
+                <input class="btn btn-secondary" type="submit" id="submit" ng-click="register()" class="buttonB" value="Sign Up"
                     style="margin-left: 620px">
             </form>
         </div>

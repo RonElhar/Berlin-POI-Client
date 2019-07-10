@@ -55,9 +55,11 @@ app.config(function ($routeProvider) {
 
 app.controller("mainController", function ($scope, $window, $rootScope, $http, $cookies) {
     $rootScope.server = "http://localhost:3000/";
-    $scope.showSorted = false;
+    $scope.criticError = false;
+    $rootScope.showCritic = false;
+    $scope.criticDescription = "";
     const tokenCookie = $cookies.get("token");
-    const user_nameCookie = $cookies.get("user")
+    const user_nameCookie = $cookies.get("user");
     if (tokenCookie != null) {
         $rootScope.currentUser = user_nameCookie;
         $rootScope.token = tokenCookie;
@@ -66,17 +68,37 @@ app.controller("mainController", function ($scope, $window, $rootScope, $http, $
     else{
         $rootScope.currentUser = "guest";
         $rootScope.connected = false;
+    }
+
+    $scope.saveCritic = function(){
+        if($scope.rank == null ){
+            $scope.criticError = true;
+            return;
+        }
+        let data = {
+         interestPointName: $rootScope.poi.name,
+        rank: $scope.rank,
+        description: $scope.criticDescription
+        }
+        $http({
+            method: 'POST',
+            url: $rootScope.server + 'private/saveCritic',
+            headers: { 'x-auth-token': $rootScope.token },
+            data: data
+        }).then((response) => {
+            $scope.criticDescription = "";
+            $scope.rank = "";
+            console.log(response);
+        })
 
     }
-});
 
-angular.module("myApp")
-    .controller("specificPOIController", function ($scope,$rootScope, $window) {
-        // console.log($rootScope.poi);
-        $scope.changePage = function(){
-            $window.location.href = "../index.html";
-        };
+    let url = $scope.server + 'getAllPoints/';
+    $http.get(url).then((response) => {
+        $rootScope.allPOI = response.data;
     });
+
+});
 
 app.filter('searchFilter', function () {
     return function (arr, searchString) {

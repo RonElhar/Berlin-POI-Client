@@ -27,7 +27,7 @@
                     </tr>
                     <tr>
                         <td ng-repeat="(name,point) in recommended">
-                            <button type="button" ng-click="specificPOI(name)" class="btn btn-outline-dark"
+                            <button type="button" ng-click="specificPOI(name)" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-dark"
                                 style="margin-left: 170px; margin-top: 10px; width: 200px;">{{name}}</label>
                         </td>
                     </tr>
@@ -48,7 +48,7 @@
                     </tr>
                     <tr>
                         <td ng-repeat="(name,point) in favourites">
-                            <button type="button" ng-click="specificPOI(name)" class="btn btn-outline-dark"
+                            <button type="button" ng-click="specificPOI(name)" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-dark"
                                 style="margin-left: 170px; margin-top: 10px; width: 200px;">{{name}}</label>
                         </td>
                     </tr>

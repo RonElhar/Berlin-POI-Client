@@ -16,11 +16,11 @@
                 <hr>
                 <h3 style="margin-left: 600px">Sign In</h3>
                 <label style="margin-left: 470px" for="userNameLogin"><b>User Name</b></label>
-                <input id="userNameLogin" type="text" ng-model="user_name" style="margin-left: 13px"
+                <input class="btn btn-light" id="userNameLogin" type="text" ng-model="user_name" style="margin-left: 13px"
                     placeholder="Enter User Name">
                 </br>
-                <label style="margin-left: 470px" for="passwordLogin"><b>Password</b></label>
-                <input id="passwordLogin" type="password" ng-model="password" style="margin-left: 25px"
+                <label style="margin-left: 470px" class="mt-2" for="passwordLogin"><b>Password</b></label>
+                <input class="btn btn-light mt-2" id="passwordLogin" type="password" ng-model="password" style="margin-left: 25px"
                     placeholder="Enter Password">
                 </br>
                 <label ng-if="invalidInput" style="color: crimson; margin-left: 500px">Invalid user name or
@@ -28,22 +28,22 @@
                 </br ng-if="invalidInput">
 
                 <!--            <a href="#!loggedIn">-->
-                <input type="button" ng-disabled="connected" class="buttonB" style="margin-left: 570px" value="Login"
+                <input class="btn btn-secondary" type="button" ng-disabled="connected" class="buttonB" style="margin-left: 570px" value="Login"
                     ng-click="logIn()">
                 <!--            </a>-->
 
-                <a href="#!retrieve">
-                    <input type="button" ng-disabled="connected" class="buttonB" style="margin-left: 8px"
+                <a  href="#!retrieve">
+                    <input class="btn btn-secondary" type="button" ng-disabled="connected"  style="margin-left: 8px"
                         value="Retrieve Password">
                 </a>
-                <input type="button" ng-disabled="!connected" class="buttonB" style="margin-left: 8px"
+                <input class="btn btn-secondary" type="button" ng-disabled="!connected"  style="margin-left: 8px"
                     ng-click="logout()" value="Logout">
 
                 <div ng-if="!connected">
                     <hr>
                     <h5 style="margin-left: 460px">If you don't have an account yet please register now:</h5>
                     <a href="#!register">
-                        <button class="buttonB" style="margin-left: 620px">
+                        <button  class="buttonB btn btn-secondary" style="margin-left: 620px">
                             Registration
                         </button>
                     </a>

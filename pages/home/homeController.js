@@ -6,7 +6,7 @@
 
 angular
   .module("myApp")
-  .controller("homeController", function(
+  .controller("homeController", function (
     $scope,
     $rootScope,
     $http,
@@ -25,7 +25,7 @@ angular
     //     return shuffle(Object.keys(object));
     // };
 
-    var randomProperty = function(object) {
+    var randomProperty = function (object) {
       var keys = Object.keys(object);
       var rand = Math.floor(keys.length * Math.random());
       return {
@@ -34,46 +34,55 @@ angular
       };
     };
 
-    $scope.specificPOI = function(poiName) {
-      let url = $rootScope.server + "getPointProperties/" + poiName;
+    $scope.specificPOI = function (poiName) {
+      let url = $rootScope.server + "getPointCritics/" + poiName;
       $http.get(url).then(
         function successCallback(response) {
-          let poiName = Object.keys(response.data)[0];
-          $rootScope.poi = {
-            name: poiName,
-            img: $scope.points[poiName],
-            description: response.data[poiName][1],
-            numOfViews: response.data[poiName][0],
-            rank: response.data[poiName][2],
-            numOfViews: response.data[poiName][3],
-            numOfViews: response.data[poiName][4],
-          };
-          $rootScope.showPOI = true;
-          if(connected){
-            $rootScope.showCritic = true
+          $scope.critics = response.data;
+        })
+        .then(function(){
+        let url = $rootScope.server + "getPointProperties/" + poiName;
+        $http.get(url).then(
+          function successCallback(response) {
+            let poiName = Object.keys(response.data)[0];
+            $rootScope.poi = {
+              name: poiName,
+              img: $rootScope.allPOI[poiName][0],
+              description: response.data[poiName][1],
+              numOfViews: response.data[poiName][0],
+              rank: response.data[poiName][2],
+              numOfViews: response.data[poiName][3],
+              numOfViews: response.data[poiName][4],
+              critic1: $scope.critics[0],
+              critic2: $scope.critics[0]
+            };
+            $rootScope.showPOI = true;
+            if ($rootScope.connected) {
+              $rootScope.showCritic = true
+            }
+            else {
+              $rootScope.showCritic = false
+            }
+            // $window.location.href = '#!sPOI';
+            console.log("Moving to Detailes about " + poiName);
+          },
+          function errorCallback(response) {
+            console.log("invalid POI");
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
           }
-          else{
-            $rootScope.showCritic = false
-          }
-          // $window.location.href = '#!sPOI';
-          console.log("Moving to Detailes about " + poiName);
-        },
-        function errorCallback(response) {
-          console.log("invalid POI");
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-        }
-      );
+        );
+      });
     };
 
-    $scope.logout = function() {
+    $scope.logout = function () {
       $cookies.remove("token");
       $cookies.remove("user");
       $rootScope.connected = false;
       $rootScope.currentUser = "guest";
     };
 
-    $scope.logIn = function() {
+    $scope.logIn = function () {
       let url = $rootScope.server + "login";
 
       let data = {

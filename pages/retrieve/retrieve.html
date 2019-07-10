@@ -12,37 +12,40 @@
         <h5 style="margin-left: 410px">Please enter your user name and your verification question and answer</h5>
         <hr>
         </br>
-        <form name="retrieveForm" ng-submit="submit()" novalidate>
-            <label style="margin-left: 450px" for="userName"><b>User Name</b></label>
-            <input id="userName" name="userName" ng-model="userName" type="text" style="margin-left: 13px"
-                   placeholder="Enter User Name" required>
-            <span ng-show="retrieveForm.userName.$touched && retrieveForm.userName.$error.required">This is required!</span>
-            <span ng-show="retrieveForm.userName.$touched && retrieveForm.userName.$invalid">Invalid field</span>
-            </br>
-            </br>
-            <label style="margin-left: 450px" for="verificationQuestion"><b>Verification Question</b></label>
-            <select id="verificationQuestion" name="verificationQuestion" ng-model="verificationQuestion"
-                    style="margin-left: 24px" required>
-                <option name="que1" value="1">Q1</option>
-                <option name="que2" value="2">Q2</option>
-                <option name="que3" value="3">Q3</option>
-                <option name="que4" value="4">Q4</option>
-            </select>
-            <span ng-show="retrieveForm.verificationQuestion.$touched && retrieveForm.verificationQuestion.$error.required">This is required! </span>
-            <span ng-show="retrieveForm.verificationQuestion.$touched && retrieveForm.verificationQuestion.$invalid">Invalid field</span>
-            </br>
-            </br>
-            <label style="margin-left: 450px" for="verificationAnswer"><b>Verification Answer</b></label>
-            <input id="verificationAnswer" name="verificationAnswer" ng-model="verificationAnswer" type="text"
-                   style="margin-left: 36px" placeholder="Enter Your Answer" required>
-            <span ng-show="retrieveForm.verificationAnswer.$touched && retrieveForm.verificationAnswer.$error.required">This is required! </span>
-            <span ng-show="retrieveForm.verificationAnswer.$touched && retrieveForm.verificationAnswer.$invalid">Invalid field</span>
-            </br>
-            </br>
-            </br>
-            <input ng-disabled="retrieveForm.$invalid" type="submit" class="buttonB" value="Retrieve"
-                   style="margin-left: 620px">
-        </form>
+        <label  style="margin-left: 450px" for="userName"><b>User Name</b></label>
+        <input class="btn btn-light" id="userName" name="userName" ng-model="userName" type="text" style="margin-left: 13px"
+                placeholder="Enter User Name" required>
+     </br>
+     <label ng-if="invalidUser" style="margin-left: 550px">Invalid User Name</label>
+    </br>
+        <button class="btn btn-secondary" type="button"  style="margin-left: 550px" value="Retrieve Questions"
+        ng-click="retreiveQuestions()">Retrieve Questions</button>
+        </br>
+        </br>
+        <label style="margin-left: 390px" for="selectVerificationQuestion"><b>Choose Verification Question</b></label>
+        <select ng-hide="showQuestions"  class="btn btn-light" id="selectVerificationQuestion" name="selectVerificationQuestion" ng-model="selectedQ"
+                style="margin-left: 24px" required>
+            <option ng-repeat="q in questions" name="{{q}}" value="{{q}}">{{q}}</option>
+        </select>
+    </br>
+    </br>
+        <label style="margin-left: 450px" for="verificationAnswer"><b>Verification Answer</b></label>
+        <input class="btn btn-light" id="verificationAnswer" name="verificationAnswer" ng-model="verificationAnswer" type="text"
+                style="margin-left: 36px; width: 300px;" placeholder="Enter Your Answer" required>
+    </br>
+    </br>
+    <button class="btn btn-secondary" type="button"  style="margin-left: 550px" value="Retrieve Questions"
+    ng-click="retrievePassword()">Retrieve Password</button>
+</br>
+
+    <label ng-if="invalidAnswer" style="margin-left: 550px">Invalid Answer</label>
+
+        </br>
+        </br>
+        <label style="margin-left: 450px" for="password"><b>Password</b></label>
+        <input disabled class="btn btn-light" id="password" name="password" ng-model="password" type="text"
+                style="margin-left: 36px; width: 300px;" placeholder="Your Password" required>
+    </form>
     </div>
 
     </body>
