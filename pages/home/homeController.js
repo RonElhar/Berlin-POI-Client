@@ -64,16 +64,12 @@ angular
               $rootScope.showCritic = false
             }
             let data = {
-              interestPointName: $scope.userName,
+              interestPointName: $rootScope.poi.name,
               numOfViews: $rootScope.poi.numOfViews
-          }
-          $http({
-              method: 'GET',
-              url: $rootScope.server + 'increaseViews',
-              data: data
-          }).then((response) => {
-              console.log(response);
-          });
+            }
+            url = $rootScope.server + 'increaseViews',
+              $http.post(url, data).then(
+              function successCallback(response) {console.log(response)});
             // $window.location.href = '#!sPOI';
             console.log("Moving to Detailes about " + poiName);
           },

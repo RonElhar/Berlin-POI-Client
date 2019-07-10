@@ -110,9 +110,9 @@ angular.module("myApp")
                             let data = {
                                 interestPointName: $rootScope.poi.name,
                                 numOfViews: $rootScope.poi.numOfViews
-                            }
-                            url=$rootScope.server + 'increaseViews',
-                            $http.post(url, data).then(
+                              }
+                              url = $rootScope.server + 'increaseViews',
+                                $http.post(url, data).then(
                                 function successCallback(response) {console.log(response)});
                            
                         },

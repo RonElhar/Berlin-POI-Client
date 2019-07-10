@@ -61,13 +61,13 @@ angular
                 interestPointName: $scope.userName,
                 numOfViews: $rootScope.poi.numOfViews
               }
-              $http({
-                method: 'GET',
-                url: $rootScope.server + 'increaseViews',
-                data: data
-              }).then((response) => {
-                console.log(response);
-              });
+              let data = {
+                interestPointName: $rootScope.poi.name,
+                numOfViews: $rootScope.poi.numOfViews
+              }
+              url = $rootScope.server + 'increaseViews',
+                $http.post(url, data).then(
+                function successCallback(response) {console.log(response)});
               // $window.location.href = '#!sPOI';
               console.log("Moving to Detailes about " + poiName);
             },
