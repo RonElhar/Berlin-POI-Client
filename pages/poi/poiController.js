@@ -5,7 +5,7 @@
 angular.module("myApp")
     .controller("poiController", function ($scope, $window, $rootScope, $http, $cookies) {
         $scope.showFavourites = false;
-        
+
         if ($scope.categories == null) {
             $scope.categories = [];
             let url = $rootScope.server + 'getAllCategories';
@@ -13,7 +13,9 @@ angular.module("myApp")
                 $scope.categories = response.data;
                 $scope.getPositions();
                 $scope.getAllPoi();
-                $scope.getFavourites();
+                if ($rootScope.connected) {
+                    $scope.getFavourites();
+                }
                 $scope.createPoi();
             });
         }
@@ -46,7 +48,7 @@ angular.module("myApp")
             });
         }
 
-        
+
 
         $scope.getFavourites = () => {
             $scope.favourites = {}
@@ -138,18 +140,52 @@ angular.module("myApp")
 
         $scope.createPoi = () => {
             // if($scope.categoriesPointsPositions == null)
-            $scope.poiCategories = {};
-            for (const category in $scope.categories) {
-                let url = $scope.server + 'getCategoryPoints/' + category;
-                $http.get(url).then((response) => {
-                    $scope.poiCategories[category] = Object.keys(response.data);
-                },
-                    (err) => {
-                        console.log(err)
-                    }
-                )
-            
-            };
+            $scope.poiCategories = [];
+            let i = 0;
+            if($cookies.get("positions")!=null){
+                $scope.positions =JSON.parse($cookies.get("positions"));
+            }
+            if ($scope.positions == null) {
+                $scope.positions = {};
+                for (const category in $scope.categories) {
+                    let url = $scope.server + 'getCategoryPoints/' + category;
+                    $http.get(url).then((response) => {
+                        $scope.poiCategories.push([category, Object.keys(response.data)]);
+                        $scope.positions[category] = i;
+                        // $scope.poiCategories[i][1][0] is point name
+                        for (let j = 0; j < Object.keys(response.data).length; j++) {
+                            $scope.positions[$scope.poiCategories[i][1][j]] = j;
+                        }
+                        i += 1;
+                    },
+                        (err) => {
+                            console.log(err)
+                        }
+                    )
+
+                };
+                $cookies.put("positions", JSON.stringify ($scope.positions));
+            }
+            else{
+                for (const category in $scope.categories) {
+                    let url = $scope.server + 'getCategoryPoints/' + category;
+                    $http.get(url).then((response) => {
+                        let catPos =  $scope.positions[category];
+                        let names = Object.keys(response.data);
+                        let points=[];
+                        for(let i=0; i<names.length;i++){
+                            let poiPos =  $scope.positions[names[i]];
+                            points[poiPos] = names[i]
+                        }
+                        $scope.poiCategories[catPos] = [category, points];
+                    },
+                        (err) => {
+                            console.log(err)
+                        }
+                    )
+
+                };
+            }
 
             $scope.showCategory = {}
             for (const category in $scope.categories) {
@@ -189,5 +225,44 @@ angular.module("myApp")
             $scope.showSorted = true;
         }
 
+        $scope.updatePoiPos = (category, poiName) => {
+            let pos = parseInt($scope.positions[poiName]);
+            $scope.positions[poiName] = pos;
 
+            for (let i = 0; i < $scope.poiCategories.length; i++) {
+                if ($scope.poiCategories[i][0] == category) {
+                    let temp = $scope.poiCategories[i][1][pos];
+                    if (temp == poiName) {
+                        return;
+                    }
+                    for (let j = 0; j < $scope.poiCategories[i][1].length; j++) {
+                        if ($scope.poiCategories[i][1][j] == poiName) {
+                            $scope.poiCategories[i][1][j] = temp;
+                            $scope.positions[temp] = j;
+
+                        }
+                    }
+                    $scope.poiCategories[i][1][pos] = poiName;
+                }
+            }
+
+            $cookies.put("positions", JSON.stringify( $scope.positions));
+
+        }
+
+        $scope.updateCatPos = (category) => {
+            let pos = $scope.positions[category];
+            let temp = $scope.poiCategories[pos][0];
+            for (let i = 0; i < $scope.poiCategories.length; i++) {
+                if ($scope.poiCategories[i][0] == category) {
+                    $scope.poiCategories[i][0] = temp
+                    $scope.positions[temp] = i;
+
+                }
+                $scope.poiCategories[pos][0] = category;
+
+            }
+            $cookies.put("positions", JSON.stringify( $scope.positions));
+
+        }
     });

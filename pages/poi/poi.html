@@ -40,18 +40,18 @@
                     class="btn"><i class="far fa-star fa-2x"></i></button>
                 <button class="btn btn-link" ng-click="showFavourites=false" ng-hide="!showFavourites" class="btn"><i
                         class="fas fa-star fa-2x"></i></button>
-            <div ng-repeat="(category,points) in poiCategories" ng-hide="!showCategory[category] || showSorted ">
+                <div ng-repeat="catPoi in poiCategories" ng-hide="!showCategory[catPoi[0]] || showSorted ">
                 <hr>
-                <h5 style="margin-left: 20px">{{category}}</h5>
-                <label style="margin-left: 20px">Choose Postion</label>
-                <select ng-hide="showFavourites" id="filter" name="filter" ng-model="selectedCatergoryPosition" style="margin-left: 10px; ">
-                        <option ng-repeat="(name,id) in categories" name={{$index}} value="{{$index}}">{{$index+1}}</option>
-                </select>
+                <h5 style="margin-left: 20px">{{catPoi[0]}}</h5>
+                <!-- <label style="margin-left: 20px">Choose Position</label> -->
+                <!-- <select ng-hide="showFavourites" ng-change="updateCatPos(catPoi[0])" id="filter" name="filter" ng-model="positions[catPoi[0]]" style="margin-left: 10px; ">
+                                        <option ng-repeat="(name,id) in categories" name={{$index}} value="{{$index}}">{{$index+1}}</option>
+                </select> -->
                 <hr>
                 <table style="margin-left: 20px">
                     </br>
                     <tr>
-                        <td ng-repeat="name in points| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                        <td ng-repeat="name in catPoi[1]| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
                             <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]}}</label>
                             <button class="btn btn-link" ng-click="savePoint(name)" ng-disabled="!connected" ng-hide="favourites[name]"
                                 class="btn"><i class="far fa-star"></i></button>
@@ -59,20 +59,20 @@
                                     class="fas fa-star"></i></button>
                             <!-- <button ng-click="postReview(name)" ng-disabled="!connected" class="btn"><i
                                     class="fas fa-pen-square fa-2x"></i></button> -->
-                            <select ng-hide="showFavourites" id="filter" name="filter" ng-model="selectedPointPosition" style="margin-left: 10px; ">
-                                    <option ng-repeat="p in points" name={{$index}} value="{{$index}}">{{$index+1}}</option>
+                            <select ng-hide="showFavourites" id="filter" ng-change="updatePoiPos(catPoi[0],name)" name="filter" ng-model="positions[name]" style="margin-left: 10px; ">
+                                <option ng-repeat="p in catPoi[1]" name={{$index}} value="{{$index}}">{{$index+1}}</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td ng-repeat="name in points| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                        <td ng-repeat="name in catPoi[1]| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
                             <img src={{allPOI[name][0]}}
                                 style="border:3px solid #333;  width: 255px; height: 170px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
                                 alt="Image is not available" />
                         </td>
                     </tr>
                     <tr>
-                        <td ng-repeat="name in points|searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                        <td ng-repeat="name in catPoi[1]|searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
                             <button type="button" ng-click="specificPOI(name)" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-dark"
                                 style="margin-left: 30px; margin-top: 10px; width: 200px;">{{name}}</label>
                         </td>
