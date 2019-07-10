@@ -63,6 +63,17 @@ angular
             else {
               $rootScope.showCritic = false
             }
+            let data = {
+              interestPointName: $scope.userName,
+              numOfViews: $rootScope.poi.numOfViews
+          }
+          $http({
+              method: 'GET',
+              url: $rootScope.server + 'increaseViews',
+              data: data
+          }).then((response) => {
+              console.log(response);
+          });
             // $window.location.href = '#!sPOI';
             console.log("Moving to Detailes about " + poiName);
           },

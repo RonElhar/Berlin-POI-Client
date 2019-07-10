@@ -107,6 +107,14 @@ angular.module("myApp")
                             }
                             // $window.location.href = '#!sPOI';
                             console.log("Moving to Detailes about " + poiName);
+                            let data = {
+                                interestPointName: $rootScope.poi.name,
+                                numOfViews: $rootScope.poi.numOfViews
+                            }
+                            url=$rootScope.server + 'increaseViews',
+                            $http.post(url, data).then(
+                                function successCallback(response) {console.log(response)});
+                           
                         },
                         function errorCallback(response) {
                             console.log("invalid POI");

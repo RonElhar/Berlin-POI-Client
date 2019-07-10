@@ -4,7 +4,7 @@
 
 angular
   .module("myApp")
-  .controller("loggedInController", function(
+  .controller("loggedInController", function (
     $scope,
     $window,
     $http,
@@ -29,12 +29,12 @@ angular
     };
 
     $scope.specificPOI = function (poiName) {
-        let url = $rootScope.server + "getPointCritics/" + poiName;
-        $http.get(url).then(
-          function successCallback(response) {
-            $scope.critics = response.data;
-          })
-          .then(function(){
+      let url = $rootScope.server + "getPointCritics/" + poiName;
+      $http.get(url).then(
+        function successCallback(response) {
+          $scope.critics = response.data;
+        })
+        .then(function () {
           let url = $rootScope.server + "getPointProperties/" + poiName;
           $http.get(url).then(
             function successCallback(response) {
@@ -57,6 +57,17 @@ angular
               else {
                 $rootScope.showCritic = false
               }
+              let data = {
+                interestPointName: $scope.userName,
+                numOfViews: $rootScope.poi.numOfViews
+              }
+              $http({
+                method: 'GET',
+                url: $rootScope.server + 'increaseViews',
+                data: data
+              }).then((response) => {
+                console.log(response);
+              });
               // $window.location.href = '#!sPOI';
               console.log("Moving to Detailes about " + poiName);
             },
@@ -67,7 +78,7 @@ angular
             }
           );
         });
-      };
+    };
 
     $scope.getRecommended = () => {
       $scope.favourites = {};
@@ -82,7 +93,7 @@ angular
     $scope.getFavourites();
     $scope.getRecommended();
 
-    $scope.changePage = function() {
+    $scope.changePage = function () {
       $window.location.href = "../index.html";
     };
   });
