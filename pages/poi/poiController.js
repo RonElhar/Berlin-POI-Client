@@ -5,6 +5,7 @@
 angular.module("myApp")
     .controller("poiController", function ($scope, $window, $rootScope, $http, $cookies) {
         $scope.showFavourites = false;
+        $scope.showSorted = false;
 
         if ($scope.categories == null) {
             $scope.categories = [];
@@ -48,32 +49,84 @@ angular.module("myApp")
             });
         }
 
-
-
         $scope.getFavourites = () => {
-            $scope.favourites = {}
-            $http({
-                method: 'GET',
-                url: $scope.server + 'private/getUserFavouritePoints',
-                headers: { 'x-auth-token': $rootScope.token }
-            }).then((response) => {
-                var favNames = Object.keys(response.data);
-                for (let i in Object.keys($scope.poiNames))
-                    if (favNames.includes($scope.poiNames[i])) {
-                        $scope.favourites[$scope.poiNames[i]] = true;
+            $scope.favourites = {};
+            $scope.favouritePOI = [];
+            if ($cookies.get("positions") != null) {
+                $scope.positions = JSON.parse($cookies.get("positions"));
+            }
+            // if ($scope.positions == null) {
+
+                $http({
+                    method: 'GET',
+                    url: $scope.server + 'private/getUserFavouritePoints',
+                    headers: { 'x-auth-token': $rootScope.token }
+                }).then((response) => {
+                    var favNames = Object.keys(response.data);
+                    $scope.favNames = favNames;
+                    let i = 0
+                    for (let j = 0; j < favNames.length; j++) {
+                        let name = favNames[j]
+                        if ($scope.favouritePOI[i] == null) {
+                            $scope.favouritePOI[i] = [];
+                        }
+                        $scope.favouritePOI[i].push(name);
+                        $scope.positions[name] = (i + 1) * (j + 1) - 1;
+                        if ($scope.favouritePOI[i].length == 5) {
+                            i += 1;
+                        }
                     }
-                    else {
-                        $scope.favourites[$scope.poiNames[i]] = false;
+                    $cookies.put("positions", JSON.stringify($scope.positions));
+                    for (let i in Object.keys($scope.poiNames)) {
+                        if (favNames.includes($scope.poiNames[i])) {
+                            $scope.favourites[$scope.poiNames[i]] = true;
+                        }
+                        else {
+                            $scope.favourites[$scope.poiNames[i]] = false;
+                        }
                     }
-            });
+                });
+            // } else {
+            //     $http({
+            //         method: 'GET',
+            //         url: $scope.server + 'private/getUserFavouritePoints',
+            //         headers: { 'x-auth-token': $rootScope.token }
+            //     }).then((response) => {
+            //         var favNames = Object.keys(response.data);
+            //         $scope.favNames = favNames;
+            //         for (let j = 0; j < favNames.length; j++) {
+            //             let name = favNames[j]
+            //             let pos = $scope.positions[name];
+            //             if ($scope.favouritePOI[Math.floor(pos / 5)] == null) {
+            //                 $scope.favouritePOI[Math.floor(pos / 5)] = [];
+            //             }
+            //             $scope.favouritePOI[Math.floor(pos / 5)][pos % 5] = name;
+                      
+            //         }
+            //         for (let i in Object.keys($scope.poiNames)) {
+            //             if (favNames.includes($scope.poiNames[i])) {
+            //                 $scope.favourites[$scope.poiNames[i]] = true;
+            //             }
+            //             else {
+            //                 $scope.favourites[$scope.poiNames[i]] = false;
+            //             }
+            //         }
+            //     }
+            //     )
+            // }
+
         }
+
 
         $scope.savePoint = (name) => {
             $scope.favourites[name] = true;
+            $scope.favNames.push(name);
         }
 
         $scope.unSavePoint = (name) => {
             $scope.favourites[name] = false;
+            let i = $scope.favNames.indexOf(name)
+            $scope.favNames.splice(i,1);
         }
 
         $scope.specificPOI = function (poiName) {
@@ -93,10 +146,8 @@ angular.module("myApp")
                                 description: response.data[poiName][1],
                                 numOfViews: response.data[poiName][0],
                                 rank: response.data[poiName][2],
-                                numOfViews: response.data[poiName][3],
-                                numOfViews: response.data[poiName][4],
-                                critic1: $scope.critics[0],
-                                critic2: $scope.critics[1]
+                                critic1: $scope.critics[$scope.critics.length - 1],
+                                critic2: $scope.critics[$scope.critics.length - 2]
                             };
                             $rootScope.showPOI = true;
                             if ($rootScope.connected) {
@@ -110,11 +161,11 @@ angular.module("myApp")
                             let data = {
                                 interestPointName: $rootScope.poi.name,
                                 numOfViews: $rootScope.poi.numOfViews
-                              }
-                              url = $rootScope.server + 'increaseViews',
+                            }
+                            url = $rootScope.server + 'increaseViews',
                                 $http.post(url, data).then(
-                                function successCallback(response) {console.log(response)});
-                           
+                                    function successCallback(response) { console.log(response) });
+
                         },
                         function errorCallback(response) {
                             console.log("invalid POI");
@@ -148,64 +199,56 @@ angular.module("myApp")
 
         $scope.createPoi = () => {
             // if($scope.categoriesPointsPositions == null)
-            $scope.poiCategories = [];
-            let i = 0;
-            if($cookies.get("positions")!=null){
-                $scope.positions =JSON.parse($cookies.get("positions"));
-            }
-            if ($scope.positions == null) {
-                $scope.positions = {};
-                for (const category in $scope.categories) {
-                    let url = $scope.server + 'getCategoryPoints/' + category;
-                    $http.get(url).then((response) => {
-                        $scope.poiCategories.push([category, Object.keys(response.data)]);
-                        $scope.positions[category] = i;
-                        // $scope.poiCategories[i][1][0] is point name
-                        for (let j = 0; j < Object.keys(response.data).length; j++) {
-                            $scope.positions[$scope.poiCategories[i][1][j]] = j;
-                        }
-                        i += 1;
-                    },
-                        (err) => {
-                            console.log(err)
-                        }
-                    )
-
-                };
-                $cookies.put("positions", JSON.stringify ($scope.positions));
-            }
-            else{
-                for (const category in $scope.categories) {
-                    let url = $scope.server + 'getCategoryPoints/' + category;
-                    $http.get(url).then((response) => {
-                        let catPos =  $scope.positions[category];
-                        let names = Object.keys(response.data);
-                        let points=[];
-                        for(let i=0; i<names.length;i++){
-                            let poiPos =  $scope.positions[names[i]];
-                            points[poiPos] = names[i]
-                        }
-                        $scope.poiCategories[catPos] = [category, points];
-                    },
-                        (err) => {
-                            console.log(err)
-                        }
-                    )
-
-                };
-            }
-
             $scope.showCategory = {}
             for (const category in $scope.categories) {
                 $scope.showCategory[category] = true;
             }
+            $scope.poiCategories = [];
+            $scope.positions = {};
+            for (const category in $scope.categories) {
+                let url = $scope.server + 'getCategoryPoints/' + category;
+                $http.get(url).then((response) => {
+                    $scope.poiCategories.push([category, Object.keys(response.data)]);
+                },
+                    (err) => {
+                        console.log(err)
+                    }
+                )
+            }
+
+
+        }
+        // else {
+        //     for (const category in $scope.categories) {
+        //         let url = $scope.server + 'getCategoryPoints/' + category;
+        //         $http.get(url).then((response) => {
+        //             let catPos = $scope.positions[category];
+        //             let names = Object.keys(response.data);
+        //             let points = [];
+        //             for (let i = 0; i < names.length; i++) {
+        //                 let poiPos = $scope.positions[names[i]];
+        //                 points[poiPos] = names[i]
+        //             }
+        //             $scope.poiCategories[catPos] = [category, points];
+        //         },
+        //             (err) => {
+        //                 console.log(err)
+        //             }
+        //         )
+
+        //     };
+        // }
+
+
+
+        $scope.poiCritic = (poiName) => {
+            $rootScope.poiName = poiName;
         }
 
-
         $scope.filterByCategory = function () {
-            $scope.showCategory
+
             for (const category in $scope.categories) {
-                if ($scope.categoryFilter == category || $scope.categoryFilter == "") {
+                if ($scope.categoryFilter == category || $scope.categoryFilter == null || $scope.categoryFilter == "") {
                     $scope.showCategory[category] = true;
                 }
                 else {
@@ -217,7 +260,7 @@ angular.module("myApp")
 
         $scope.sortedPoints = {};
         $scope.sort = function () {
-            let i = 1
+            let i = 0
             for (let j = 0; j < $scope.sortedByRank.length; j++) {
                 let name = $scope.sortedByRank[j][0]
                 if ($scope.sortedPoints[i] == null) {
@@ -233,44 +276,39 @@ angular.module("myApp")
             $scope.showSorted = true;
         }
 
-        $scope.updatePoiPos = (category, poiName) => {
-            let pos = parseInt($scope.positions[poiName]);
+        $scope.updatePoiPos = (poiName) => {
+            let pos = parseInt($scope.positions[poiName]) - 1;
             $scope.positions[poiName] = pos;
-
-            for (let i = 0; i < $scope.poiCategories.length; i++) {
-                if ($scope.poiCategories[i][0] == category) {
-                    let temp = $scope.poiCategories[i][1][pos];
-                    if (temp == poiName) {
-                        return;
+            let temp = $scope.favouritePOI[Math.floor(pos / 5)][pos % 5];
+            for (let i = 0; i < $scope.favouritePOI.length; i++) {
+                for (let j = 0; j < $scope.poiCategories[i].length; j++) {
+                    if ($scope.favouritePOI[i][j] == poiName) {
+                        $scope.favouritePOI[i][j] = temp;
+                        $scope.positions[temp] = j;
                     }
-                    for (let j = 0; j < $scope.poiCategories[i][1].length; j++) {
-                        if ($scope.poiCategories[i][1][j] == poiName) {
-                            $scope.poiCategories[i][1][j] = temp;
-                            $scope.positions[temp] = j;
-
-                        }
-                    }
-                    $scope.poiCategories[i][1][pos] = poiName;
                 }
+                $scope.favouritePOI[Math.floor(pos / 5)][pos % 5] = poiName;
             }
-
-            $cookies.put("positions", JSON.stringify( $scope.positions));
+            $cookies.put("positions", JSON.stringify($scope.positions));
 
         }
 
-        $scope.updateCatPos = (category) => {
-            let pos = $scope.positions[category];
-            let temp = $scope.poiCategories[pos][0];
-            for (let i = 0; i < $scope.poiCategories.length; i++) {
-                if ($scope.poiCategories[i][0] == category) {
-                    $scope.poiCategories[i][0] = temp
-                    $scope.positions[temp] = i;
 
-                }
-                $scope.poiCategories[pos][0] = category;
 
-            }
-            $cookies.put("positions", JSON.stringify( $scope.positions));
 
-        }
+        // $scope.updateCatPos = (category) => {
+        //     let pos = $scope.positions[category];
+        //     let temp = $scope.poiCategories[pos][0];
+        //     for (let i = 0; i < $scope.poiCategories.length; i++) {
+        //         if ($scope.poiCategories[i][0] == category) {
+        //             $scope.poiCategories[i][0] = temp
+        //             $scope.positions[temp] = i;
+
+        //         }
+        //         $scope.poiCategories[pos][0] = category;
+
+        //     }
+        //     $cookies.put("positions", JSON.stringify($scope.positions));
+
+        // }
     });

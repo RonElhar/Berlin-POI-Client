@@ -59,7 +59,7 @@
             <div ng-if="points!=null" id="explore">
                 <tr>
                     <td ng-repeat="(name, img) in points">
-                        <img src={{img}}
+                        <img src={{img}} ng-click= "specificPOI(name)" data-toggle="modal" data-target="#exampleModal"
                             style="border:3px solid #333;  width: 300px; height: 200px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
                             alt="Image is not available" />
                     </td>

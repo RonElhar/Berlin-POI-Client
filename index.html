@@ -52,7 +52,7 @@
           <a href="#!login">MyPOI</a>
         </li>
         <li>
-          <a href="#!register">Register</a>
+          <a ng-hide="connected" href="#!register">Register</a>
         </li>
       </ul>
 
@@ -102,7 +102,7 @@
                   >
                   <br />
                   <label class="col-form-label" for="rank"
-                    ><b> Rank: {{ poi.rank }}</b></label
+                    ><b> Rank: {{ poi.rank| number : 2 }}</b></label
                   >
                   <br />
                   <label class="col-form-label"><b>Two Last added Critics:</b></label>
@@ -112,39 +112,18 @@
                     id="critic1"
                     name="critic1"
                     type="text"
-                    >"{{ poi.critic1 }}"</label
+                    >"{{ poi.critic1[0]}}" {{ poi.critic1[1]| date :  "dd.MM.y"}}</label
                   >
                   <br />
                   <label
-                    id="critic2"
+=                    id="critic2"
                     name="critic2"
                     type="text"
                     class="col-form-label"
-                    >"{{ poi.critic2 }}"
+                    >"{{ poi.critic2[0]}}" {{ poi.critic2[1]| date :  "dd.MM.y"}}
                   </label>
                 </div>
               </form>
-              <form ng-hide="!showCritic">
-                    <label class="col-form-label"><b>Write a Critic:</b></label>
-                  </br>
-                    <label class="col-form-label">Choose Rank</label>
-                    <select ng-model="rank">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </select>
-                </br>
-
-                    <!-- <div class="form-group"> -->
-                    <label for="write a critic">Description</label>
-                    <textarea class="form-control" ng-model="criticDescription"></textarea>
-                    <button type="button" class="btn btn-primary mt-2" ng-click="saveCritic()" data-dismiss="modal"  >
-                            Submit Critic
-                          </button>
-                    <label ng-hide="!criticError">Rank is required</label>
-                  </form>
             </div>
             <div class="modal-footer">
               <button
@@ -159,6 +138,62 @@
         </div>
       </div>
 
+      <div
+      class="modal fade"
+      id="criticModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="criticModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="criticModalLabel">{{ poiName}} Critic</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form >
+                  <label class="col-form-label"><b>Write a Critic:</b></label>
+                </br>
+                  <label class="col-form-label">Choose Rank</label>
+                  <select ng-model="rank">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+              </br>
+
+                  <!-- <div class="form-group"> -->
+                  <label for="write a critic">Description</label>
+                  <textarea class="form-control" ng-model="criticDescription"></textarea>
+                  <button type="button" class="btn btn-primary mt-2" ng-click="saveCritic()" data-dismiss="modal"  >
+                          Submit Critic
+                        </button>
+                  <label ng-hide="!criticError">Rank is required</label>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
       <script
         src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

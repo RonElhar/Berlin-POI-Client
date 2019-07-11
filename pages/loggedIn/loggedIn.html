@@ -20,7 +20,7 @@
                     </br>
                     <tr>
                         <td ng-repeat="(name,point) in recommended">
-                            <img src={{point}}
+                            <img src={{point}} ng-click= "specificPOI(name)" data-toggle="modal" data-target="#exampleModal"
                                 style="border:3px solid #333; margin-left: 100px; margin-right:100px ; width: 350px; height: 233px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
                                 alt="Image is not available" />
                         </td>
@@ -37,11 +37,12 @@
                 <hr>
                 <h5 style="margin-left: 20px">Last Saved Points</h5>
                 <hr>
+                <label ng-hide="!noLastSave">You don't have saved points</label>
                 <table style="margin-left: 200px">
                     </br>
                     <tr>
                         <td ng-repeat="(name,point) in favourites">
-                            <img src={{point}}
+                            <img src={{point}} ng-click= "specificPOI(name)" data-toggle="modal" data-target="#exampleModal"
                                 style="border:3px solid #333; margin-left: 100px; margin-right:100px ; width: 350px; height: 233px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
                                 alt="Image is not available" />
                         </td>

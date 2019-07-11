@@ -30,17 +30,18 @@
             <button class="btn btn-secondary" ng-hide="showSorted" type="button" class="buttonB" ng-click="filterByCategory()"
                 style="margin-left: 8px">Filter by
                 Category</button>
-            <button class="btn btn-secondary" type="button" ng-hide="showSorted" class="buttonB" ng-click="sort()" style="margin-left: 8px">Sort
+            <button class="btn btn-secondary" ng-hide="!connected" type="button" ng-hide="showSorted" class="buttonB" ng-click="sort()" style="margin-left: 8px">Sort
                 POI by Rank</button>
             <button class="btn btn-secondary" type="button" ng-hide="!showSorted" class="buttonB" ng-click="showSorted=false"
                 style="margin-left: 8px">Show POI By Categories</button>
-            <button class="btn" ng-click="savePoints()" ng-disabled="!connected"><i
+            <button class="btn" ng-hide="!connected" ng-click="savePoints()" ng-hide="!connected"><i
                     class="far fa-save fa-2x"></i></button>
-                    <button class="btn btn-link" ng-click="showFavourites=true" ng-disabled="!connected" ng-hide="showFavourites"
-                    class="btn"><i class="far fa-star fa-2x"></i></button>
-                <button class="btn btn-link" ng-click="showFavourites=false" ng-hide="!showFavourites" class="btn"><i
-                        class="fas fa-star fa-2x"></i></button>
-                <div ng-repeat="catPoi in poiCategories" ng-hide="!showCategory[catPoi[0]] || showSorted ">
+            <button class="btn btn-link" ng-click="showFavourites=true" ng-hide="!connected || connected && showFavourites"
+            class="btn"><i class="far fa-star fa-2x"></i></button>
+            <button class="btn btn-link" ng-click="showFavourites=false" ng-hide="!showFavourites" class="btn"><i
+                    class="fas fa-star fa-2x"></i></button>
+            <label ng-hide="!connected" style="margin-left: 5px">{{favNames.length}}</label>
+            <div ng-repeat="catPoi in poiCategories" ng-hide="!showCategory[catPoi[0]] || showSorted || showFavourites">
                 <hr>
                 <h5 style="margin-left: 20px">{{catPoi[0]}}</h5>
                 <!-- <label style="margin-left: 20px">Choose Position</label> -->
@@ -51,51 +52,52 @@
                 <table style="margin-left: 20px">
                     </br>
                     <tr>
-                        <td ng-repeat="name in catPoi[1]| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
-                            <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]}}</label>
-                            <button class="btn btn-link" ng-click="savePoint(name)" ng-disabled="!connected" ng-hide="favourites[name]"
+                        <td ng-repeat="name in catPoi[1]| searchFilter:searchString">
+                            <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]| number : 2}}</label>
+                            <button class="btn btn-link" ng-click="savePoint(name)" ng-hide="!connected ||connected && favourites[name]" 
                                 class="btn"><i class="far fa-star"></i></button>
                             <button class="btn btn-link" ng-click="unSavePoint(name)" ng-hide="!favourites[name]" class="btn"><i
                                     class="fas fa-star"></i></button>
-                            <!-- <button ng-click="postReview(name)" ng-disabled="!connected" class="btn"><i
-                                    class="fas fa-pen-square fa-2x"></i></button> -->
-                            <select ng-hide="showFavourites" id="filter" ng-change="updatePoiPos(catPoi[0],name)" name="filter" ng-model="positions[name]" style="margin-left: 10px; ">
+                            <button ng-click="poiCritic(name)" data-toggle="modal" data-target="#criticModal" ng-hide="!connected" class="btn"><i
+                                    class="fas fa-pen-square fa-2x"></i></button>
+                            <!-- <select ng-hide="showFavourites" id="filter" ng-change="updatePoiPos(catPoi[0],name)" name="filter" ng-model="positions[name]" style="margin-left: 10px; ">
                                 <option ng-repeat="p in catPoi[1]" name={{$index}} value="{{$index}}">{{$index+1}}</option>
-                            </select>
+                            </select> -->
                         </td>
                     </tr>
                     <tr>
-                        <td ng-repeat="name in catPoi[1]| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
-                            <img src={{allPOI[name][0]}}
+                        <td ng-repeat="name in catPoi[1]| searchFilter:searchString" >
+                            <img src={{allPOI[name][0]}} ng-click= "specificPOI(name)" data-toggle="modal" data-target="#exampleModal"
                                 style="border:3px solid #333;  width: 255px; height: 170px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
                                 alt="Image is not available" />
                         </td>
                     </tr>
                     <tr>
-                        <td ng-repeat="name in catPoi[1]|searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                        <td ng-repeat="name in catPoi[1]|searchFilter:searchString">
                             <button type="button" ng-click="specificPOI(name)" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-dark"
                                 style="margin-left: 30px; margin-top: 10px; width: 200px;">{{name}}</label>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div ng-hide="!showSorted" ng-repeat="fivePoints in sortedPoints| searchFilter:searchString">
+            <div ng-hide="!showSorted || showFavourites" ng-repeat="fivePoints in sortedPoints| searchFilter:searchString">
                 <table style="margin-left: 20px">
                     </br>
                     <tr>
                         <td ng-repeat="name in fivePoints| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
-                            <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]}}</label>
-                            <button ng-click="savePoint(name)" ng-disabled="!connected" ng-hide="favourites[name]"
-                                class="btn"><i class="far fa-star"></i></button>
-                            <button ng-click="unSavePoint(name)" ng-hide="!favourites[name]" class="btn"><i
-                                    class="fas fa-star"></i></button>
-                            <!-- <button ng-click="postReview(name)" ng-disabled="!connected" class="btn"><i
-                                    class="fas fa-pen-square fa-2x"></i></button> -->
+                                <label style="margin-left: 20px;">Average Rank: {{allPOI[name][2]| number : 2}}</label>
+                                <button class="btn btn-link" ng-click="savePoint(name)" ng-hide="!connected ||connected && favourites[name]" 
+                                    class="btn"><i class="far fa-star"></i></button>
+                                <button class="btn btn-link" ng-click="unSavePoint(name)"ng-hide="!favourites[name]" class="btn"><i
+                                        class="fas fa-star"></i></button>
+                                <button ng-click="poiCritic(name)" data-toggle="modal" data-target="#criticModal" ng-hide="!connected" class="btn"><i
+                                        class="fas fa-pen-square fa-2x"></i></button>
+
                         </td>
                     </tr>
                     <tr>
                         <td ng-repeat="name in fivePoints| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
-                            <img src={{allPOI[name][0]}}
+                            <img src={{allPOI[name][0]}} ng-click= "specificPOI(name)" data-toggle="modal" data-target="#exampleModal"
                                 style="border:3px solid #333;  width: 255px; height: 170px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
                                 alt="Image is not available" />
                         </td>
@@ -107,6 +109,38 @@
                         </td>
                     </tr>
                 </table>
+            </div>
+            <div ng-hide="!showFavourites" ng-repeat="fivePoints in favouritePOI| searchFilter:searchString">
+                    <table style="margin-left: 20px">
+                        </br>
+                        <tr>
+                            <td ng-repeat="name in fivePoints| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                                    <label style="margin-left: 10px;">Average Rank: {{allPOI[name][2]| number : 2}}</label>
+                                    <button class="btn btn-link" ng-click="savePoint(name)" ng-hide="!connected ||connected && favourites[name]" 
+                                        class="btn"><i class="far fa-star"></i></button>
+                                    <button class="btn btn-link" ng-click="unSavePoint(name)"ng-hide="!favourites[name]" class="btn"><i
+                                            class="fas fa-star"></i></button>
+                                    <button ng-click="poiCritic(name)" data-toggle="modal" data-target="#criticModal" ng-hide="!connected" class="btn"><i
+                                            class="fas fa-pen-square"></i></button>
+                                    <select id="filter" ng-change="updatePoiPos(name)" name="filter" ng-model="positions[name]"  >
+                                            <option ng-repeat="f in favNames" name={{$index}} value="{{$index + 1}}">{{$index+1}}</option>
+                                    </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ng-repeat="name in fivePoints| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                                <img src={{allPOI[name][0]}} ng-click= "specificPOI(name)" data-toggle="modal" data-target="#exampleModal"
+                                    style="border:3px solid #333;  width: 255px; height: 170px; -moz-border-radius: 1em 4em 1em 4em; border-radius: 1em 4em 1em 4em;"
+                                    alt="Image is not available" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ng-repeat="name in fivePoints| searchFilter:searchString" ng-hide="showFavourites&&!favourites[name]">
+                                <button type="button" ng-click="specificPOI(name)" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-dark"
+                                    style="margin-left: 30px; margin-top: 10px; width: 200px;">{{name}}</label>
+                            </td>
+                        </tr>
+                    </table>
             </div>
         </div>
     </div>

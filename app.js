@@ -76,7 +76,7 @@ app.controller("mainController", function ($scope, $window, $rootScope, $http, $
             return;
         }
         let data = {
-         interestPointName: $rootScope.poi.name,
+         interestPointName: $rootScope.poiName,
         rank: $scope.rank,
         description: $scope.criticDescription
         }

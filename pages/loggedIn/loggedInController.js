@@ -10,7 +10,8 @@ angular
     $http,
     $rootScope
   ) {
-    $scope.getFavourites = () => {
+    $scope.noLastSave = false;
+    $scope.getRecommended = () => {
       $scope.recommended = {};
       $http({
         method: "GET",
@@ -21,7 +22,10 @@ angular
       }).then(response => {
         let i = 0;
         let names = Object.keys(response.data);
-        while (i < 2) {
+        if (names.length == 0) {
+          $scope.noLastSaved = true
+        }
+        while (i < 2 && i < names.length) {
           $scope.recommended[names[i]] = response.data[names[i]];
           i += 1;
         }
@@ -45,8 +49,6 @@ angular
                 description: response.data[poiName][1],
                 numOfViews: response.data[poiName][0],
                 rank: response.data[poiName][2],
-                numOfViews: response.data[poiName][3],
-                numOfViews: response.data[poiName][4],
                 critic1: $scope.critics[0],
                 critic2: $scope.critics[1]
               };
@@ -57,17 +59,14 @@ angular
               else {
                 $rootScope.showCritic = false
               }
-              let data = {
-                interestPointName: $scope.userName,
-                numOfViews: $rootScope.poi.numOfViews
-              }
+
               let data = {
                 interestPointName: $rootScope.poi.name,
                 numOfViews: $rootScope.poi.numOfViews
               }
               url = $rootScope.server + 'increaseViews',
                 $http.post(url, data).then(
-                function successCallback(response) {console.log(response)});
+                  function successCallback(response) { console.log(response) });
               // $window.location.href = '#!sPOI';
               console.log("Moving to Detailes about " + poiName);
             },
@@ -80,7 +79,7 @@ angular
         });
     };
 
-    $scope.getRecommended = () => {
+    $scope.getFavourites = () => {
       $scope.favourites = {};
       $http({
         method: "GET",

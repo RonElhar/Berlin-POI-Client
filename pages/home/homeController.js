@@ -51,8 +51,6 @@ angular
               description: response.data[poiName][1],
               numOfViews: response.data[poiName][0],
               rank: response.data[poiName][2],
-              numOfViews: response.data[poiName][3],
-              numOfViews: response.data[poiName][4],
               critic1: $scope.critics[0],
               critic2: $scope.critics[0]
             };
