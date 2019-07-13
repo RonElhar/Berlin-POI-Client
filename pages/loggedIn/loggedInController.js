@@ -10,7 +10,7 @@ angular
     $http,
     $rootScope
   ) {
-    $scope.noLastSave = false;
+    $scope.noLastSaved = false;
     $scope.getRecommended = () => {
       $scope.recommended = {};
       $http({
@@ -22,9 +22,6 @@ angular
       }).then(response => {
         let i = 0;
         let names = Object.keys(response.data);
-        if (names.length == 0) {
-          $scope.noLastSaved = true
-        }
         while (i < 2 && i < names.length) {
           $scope.recommended[names[i]] = response.data[names[i]];
           i += 1;
@@ -53,12 +50,6 @@ angular
                 critic2: $scope.critics[1]
               };
               $rootScope.showPOI = true;
-              if ($rootScope.connected) {
-                $rootScope.showCritic = true
-              }
-              else {
-                $rootScope.showCritic = false
-              }
 
               let data = {
                 interestPointName: $rootScope.poi.name,
@@ -87,10 +78,15 @@ angular
         headers: { "x-auth-token": $rootScope.token }
       }).then(response => {
         $scope.favourites = response.data;
+        let names = Object.keys($scope.favourites);
+        if(names == 0){
+          $scope.noLastSaved = true
+        }
       });
     };
     $scope.getFavourites();
     $scope.getRecommended();
+
 
     $scope.changePage = function () {
       $window.location.href = "../index.html";

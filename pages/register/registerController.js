@@ -5,7 +5,7 @@
 
 
 angular.module("myApp")
-    .controller("registerController", function ($scope, $rootScope, $http) {
+    .controller("registerController", function ($scope, $rootScope, $http, $window) {
         // button click count
         $rootScope.server = "http://localhost:3000/";
         $scope.questions = ["What is your childhood nickname?", "What is your childhood address?", "In which college did you study?", "What is your favourite food?"]
@@ -17,7 +17,6 @@ angular.module("myApp")
             });
         }
 
-
         if ($scope.countries == null) {
             $scope.countries = [];
             let url = $rootScope.server + 'getCountries';
@@ -27,7 +26,6 @@ angular.module("myApp")
                 }
             });
         }
-        //userName, password, firstName, lastName, city, country, email, interestCategories, verificationQuestion[], verificationAnswer[]
         $scope.register = function () {
             let url = $rootScope.server + 'register';
             
@@ -41,13 +39,13 @@ angular.module("myApp")
                 email: $scope.email,
                 interestCategories: [$scope.regCategories, $scope.regCategories2, $scope.regCategories3],
                 verificationQuestion: [$scope.regVerQuestions, $scope.regVerQuestions2],
-                verificationAnswer: [$scope.regVerQuestions, $scope.regVerQuestions2]
+                verificationAnswer: [$scope.regVerAnswer, $scope.regVerAnswer2]
             };
             const dataKeys = Object.keys(data);
             for(let i = 0; i< dataKeys.length;i++){
                 if (data[dataKeys[i]] == null){
                     $scope.invalidArguments = true
-                    console.log("invalid "+dataKeys[i]+": " + data[dataKeys[i]] )
+                    console.log("invalid " + dataKeys[i]+": " + data[dataKeys[i]] )
                     return;
                 }
             }

@@ -15,15 +15,11 @@ angular
   ) {
     $rootScope.server = "http://localhost:3000/";
 
-    // $scope.user_name = "ron";
-    // $scope.password = "123456";
 
     $scope.points = [];
     $scope.btnCount = 0;
     $scope.invalidInput = false;
-    // var objectKeysShuffled = function (object) {
-    //     return shuffle(Object.keys(object));
-    // };
+ 
 
     var randomProperty = function (object) {
       var keys = Object.keys(object);
@@ -51,8 +47,8 @@ angular
               description: response.data[poiName][1],
               numOfViews: response.data[poiName][0],
               rank: response.data[poiName][2],
-              critic1: $scope.critics[0],
-              critic2: $scope.critics[0]
+              critic1: $scope.critics[$scope.critics.length - 1],
+              critic2: $scope.critics[$scope.critics.length - 2]
             };
             $rootScope.showPOI = true;
             if ($rootScope.connected) {
@@ -104,7 +100,6 @@ angular
           $window.location.href = "#!login";
           $scope.invalidInput = false;
 
-          // $location.url('#!login')
         },
         function errorCallback(response) {
           $scope.invalidInput = true;
