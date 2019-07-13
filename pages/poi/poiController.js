@@ -272,11 +272,11 @@ angular.module("myApp")
                     if ($scope.favouritePOI[i][j] == poiName) {
                         $scope.favouritePOI[i][j] = temp;
                         $scope.positions[temp] = i * 5 + j + 1;
+                        break;
                     }
                 }
-                $scope.favouritePOI[Math.floor(pos / 5)][pos % 5] = poiName;
             }
-
+            $scope.favouritePOI[Math.floor(pos / 5)][pos % 5] = poiName;
         }
 
     });
